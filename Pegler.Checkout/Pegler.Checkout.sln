@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{3048A38B-764C-41C1-9F7F-7C964E37E992}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{82E68D2F-0E1A-47D3-91DD-3A406A1AFE25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{1F4A0DBF-4095-42B1-AF7F-F0E7CC578985}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pegler.PaymentGateway", "Pegler.PaymentGateway\Pegler.PaymentGateway.csproj", "{28553699-0701-4C66-B371-D3076C482946}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pegler.PaymentGateway.BusinessLogic", "Pegler.PaymentGateway.BusinessLogic\Pegler.PaymentGateway.BusinessLogic.csproj", "{BA3E02DE-E80F-440F-B9FA-114D6967E73C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28553699-0701-4C66-B371-D3076C482946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28553699-0701-4C66-B371-D3076C482946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28553699-0701-4C66-B371-D3076C482946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28553699-0701-4C66-B371-D3076C482946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA3E02DE-E80F-440F-B9FA-114D6967E73C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA3E02DE-E80F-440F-B9FA-114D6967E73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA3E02DE-E80F-440F-B9FA-114D6967E73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA3E02DE-E80F-440F-B9FA-114D6967E73C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1F4A0DBF-4095-42B1-AF7F-F0E7CC578985} = {3048A38B-764C-41C1-9F7F-7C964E37E992}
+		{28553699-0701-4C66-B371-D3076C482946} = {1F4A0DBF-4095-42B1-AF7F-F0E7CC578985}
+		{BA3E02DE-E80F-440F-B9FA-114D6967E73C} = {1F4A0DBF-4095-42B1-AF7F-F0E7CC578985}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C036A88-B890-4F13-9483-C2FA76CEB942}
+	EndGlobalSection
+EndGlobal
