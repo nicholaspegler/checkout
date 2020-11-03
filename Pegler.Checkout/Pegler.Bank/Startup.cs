@@ -1,18 +1,13 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Pegler.PaymentGateway.BusinessLogic.Contracts;
-using Pegler.PaymentGateway.BusinessLogic.Managers;
-using Pegler.PaymentGateway.DataAccess.Contracts;
-using Pegler.PaymentGateway.DataAccess.Providers;
 using System;
 using System.Text.Json.Serialization;
 
-namespace Pegler.PaymentGateway
+namespace Pegler.Bank
 {
     public class Startup
     {
@@ -26,8 +21,6 @@ namespace Pegler.PaymentGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient("default");
-
             services.AddControllers()
                 .AddJsonOptions(
                 options =>
@@ -42,8 +35,8 @@ namespace Pegler.PaymentGateway
                     options.SwaggerDoc("v1", new OpenApiInfo
                     {
                         Version = "v1",
-                        Title = "Payment Gateway Challenge API",
-                        Description = "A set of APIs to interact with with the Challenge",
+                        Title = "Mock Bank API",
+                        Description = "A set of APIs to return Mocked responses",
                         Contact = new OpenApiContact
                         {
                             Name = "Nicholas Pegler",
@@ -52,13 +45,6 @@ namespace Pegler.PaymentGateway
                         }
                     });
                 });
-
-            services.AddAutoMapper(typeof(Startup));
-
-            services.AddTransient<IHttpClientManager, HttpClientManager>();
-            services.AddTransient<IPaymentManager, PaymentManager>();
-
-            services.AddTransient<IBankProvider, BankProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,8 +62,8 @@ namespace Pegler.PaymentGateway
             app.UseSwaggerUI(
                 options =>
                 {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Gateway Challenge");
-
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Mock Bank");
+                    
                     options.RoutePrefix = string.Empty;
 
                 });

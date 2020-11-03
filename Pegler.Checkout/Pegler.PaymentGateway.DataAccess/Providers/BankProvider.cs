@@ -27,16 +27,16 @@ namespace Pegler.PaymentGateway.DataAccess.Providers
             //                           .Get();
 
 
-            var foo = configuration.GetSection("Payment");
+            //var foo = configuration.GetSection("Payment");
 
-            var bar = configuration.GetSection("Payment")?
-                                   .GetSection("Bank");
+            //var bar = configuration.GetSection("Payment")?
+            //                       .GetSection("Bank");
 
-            string a = configuration.GetSection("Payment:Bank").Value;
+            //string a = configuration.GetSection("Payment:Bank").Value;
 
 
-            string getUrl = "";
-            string postUrl = "";
+            string getUrl = "https://localhost:44319/api/v1/Bank/{0}";
+            string postUrl = "https://localhost:44319/api/v1/Bank/";
 
             string bank = $"{{\"Authentication\":{{\"IsRequired\":\"false\",\"Url\":\"\",\"Key\":\"\",\"Secret\":\"\"}},\"Urls\":[{{\"Type\":\"Get\",\"Value\":\"{getUrl}\"}},{{\"Type\":\"Post\",\"Value\":\"{postUrl}\"}}]}}";
 

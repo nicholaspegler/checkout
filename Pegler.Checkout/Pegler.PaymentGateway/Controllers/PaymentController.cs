@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
 using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
@@ -77,7 +78,7 @@ namespace Pegler.PaymentGateway.Controllers
 
             }
 
-            return StatusCode(400, ModelState);
+            return StatusCode(StatusCodes.Status400BadRequest, ModelState);
         }
 
     }

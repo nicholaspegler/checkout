@@ -42,6 +42,8 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
                                          .Select(s => s.Value)
                                          .FirstOrDefault();
 
+                    path = string.Format(path, paymentId);
+
                     return await httpClientManager.GetAsync<PaymentRespModel>(path, bankDto.Authentication);
                 }
 
