@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
 using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
+using Pegler.PaymentGateway.BusinessLogic.Models.Payment.POST;
 using Pegler.PaymentGateway.ViewModels.Payment.GET;
 using Pegler.PaymentGateway.ViewModels.Payment.POST;
 
@@ -64,6 +65,20 @@ namespace Pegler.PaymentGateway.Controllers
         {
             if (ModelState.IsValid)
             {
+                PaymentReqModel paymentReqModel = new PaymentReqModel();
+
+
+                (PaymentReqRespModel paymentReqRespModel, string errorMessage) = await paymentManager.PostAsync(paymentReqModel);
+
+                if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    return BadRequest($"Failed to process payment");
+                }
+
+                if (paymentReqRespModel == null)
+                {
+                    return BadRequest("Failed to process payment");
+                }
 
                 Guid id = Guid.NewGuid();
 

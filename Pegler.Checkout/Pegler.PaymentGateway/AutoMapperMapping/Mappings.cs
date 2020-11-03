@@ -8,10 +8,13 @@ namespace Pegler.PaymentGateway.AutoMapperMapping
     {
         public Mappings()
         {
-
             CreateMap<PaymentRespVM, PaymentRespModel>()
                 .ReverseMap();
 
+            CreateMap<PaymentCardRespVM, PaymentCardRespModel>()
+                .ReverseMap()
+                .ForMember(dest => dest.Cvv, opt => opt.MapFrom(src => "***"))
+                .ForMember(dest => dest.CardnumberLast4, opt => opt.MapFrom(src => src.Cardnumber.Substring(src.Cardnumber.Length - 4, 4)));
         }
     }
 }
