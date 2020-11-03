@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using IdentityModel.Client;
+using Newtonsoft.Json;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
+using Pegler.PaymentGateway.DataAccess.Dtos;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Pegler.PaymentGateway.BusinessLogic.Managers
@@ -18,11 +18,11 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
             this.httpClientFactory = httpClientFactory;
         }
 
-        public async Task<(T, string)> GetAsync<T>(string path)
+        public async Task<(T, string)> GetAsync<T>(string path, AuthenticationDto authenticationDto = null)
         {
             try
             {
-                using (HttpClient httpClient = httpClientFactory.CreateClient("default"))
+                using (HttpClient httpClient = await GetHttpClientAsync(authenticationDto))
                 {
                     HttpResponseMessage getResponse = await httpClient.GetAsync(path);
 
@@ -50,11 +50,11 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
             }
         }
 
-        public async Task<(T, string)> PostAsync<T>(string path, StringContent stringContent)
+        public async Task<(T, string)> PostAsync<T>(string path, StringContent stringContent, AuthenticationDto authenticationDto = null)
         {
             try
             {
-                using (HttpClient httpClient = httpClientFactory.CreateClient("default"))
+                using (HttpClient httpClient = await GetHttpClientAsync(authenticationDto))
                 {
                     HttpResponseMessage postResponse = await httpClient.PostAsync(path, stringContent);
 
@@ -80,6 +80,18 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
 
                 return (default, $"POST - An exception has occured: {exception.Message}");
             }
+        }
+
+        private async Task<HttpClient> GetHttpClientAsync(AuthenticationDto authenticationDto = null)
+        {
+            HttpClient httpClient = httpClientFactory.CreateClient("default");
+
+            if (authenticationDto?.IsRequired == true)
+            {
+                // request / generate a token and add to the httpClient as required
+            }
+
+            return httpClient;
         }
     }
 }

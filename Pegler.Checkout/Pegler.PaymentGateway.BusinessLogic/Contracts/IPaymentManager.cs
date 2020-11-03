@@ -1,7 +1,6 @@
 ﻿using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
+using Pegler.PaymentGateway.BusinessLogic.Models.Payment.POST;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Pegler.PaymentGateway.BusinessLogic.Contracts
@@ -10,7 +9,6 @@ namespace Pegler.PaymentGateway.BusinessLogic.Contracts
     {
         Task<(PaymentRespModel, string)> GetAsync(Guid paymentId);
 
-        Task<(string, string)> PostAsync();
-
+        Task<(PaymentReqRespModel, string)> PostAsync(PaymentReqModel paymentReqModel);
     }
 }

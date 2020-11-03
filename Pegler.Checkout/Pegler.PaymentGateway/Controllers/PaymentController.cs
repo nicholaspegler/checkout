@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Pegler.PaymentGateway.BusinessLogic.Contracts;
+using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
+using Pegler.PaymentGateway.ViewModels.Payment.GET;
 using Pegler.PaymentGateway.ViewModels.Payment.POST;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,10 +20,13 @@ namespace Pegler.PaymentGateway.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IMapper mapper;
+        private readonly IPaymentManager paymentManager;
 
-        public PaymentController(IMapper mapper)
+        public PaymentController(IMapper mapper,
+                                 IPaymentManager paymentManager)
         {
             this.mapper = mapper;
+            this.paymentManager = paymentManager;
         }
 
         /// <summary>
@@ -31,7 +37,21 @@ namespace Pegler.PaymentGateway.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return Ok();
+            (PaymentRespModel paymentRespModel, string errorMessage) = await paymentManager.GetAsync(id);
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                return BadRequest($"Failed to retrieve payment details");
+            }
+
+            if (paymentRespModel == null)
+            {
+                return Ok();
+            }
+
+            PaymentRespVM paymentRespVM = mapper.Map<PaymentRespModel, PaymentRespVM>(paymentRespModel);
+
+            return Ok(paymentRespVM);
         }
 
         /// <summary>

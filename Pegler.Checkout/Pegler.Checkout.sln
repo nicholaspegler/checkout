@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pegler.PaymentGateway", "Pe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pegler.PaymentGateway.BusinessLogic", "Pegler.PaymentGateway.BusinessLogic\Pegler.PaymentGateway.BusinessLogic.csproj", "{BA3E02DE-E80F-440F-B9FA-114D6967E73C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pegler.PaymentGateway.DataAccess", "Pegler.PaymentGateway.DataAccess\Pegler.PaymentGateway.DataAccess.csproj", "{39E90DDE-E21A-494B-B718-6EA5AC86B9A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BA3E02DE-E80F-440F-B9FA-114D6967E73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA3E02DE-E80F-440F-B9FA-114D6967E73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA3E02DE-E80F-440F-B9FA-114D6967E73C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39E90DDE-E21A-494B-B718-6EA5AC86B9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E90DDE-E21A-494B-B718-6EA5AC86B9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E90DDE-E21A-494B-B718-6EA5AC86B9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E90DDE-E21A-494B-B718-6EA5AC86B9A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,6 +41,7 @@ Global
 		{1F4A0DBF-4095-42B1-AF7F-F0E7CC578985} = {3048A38B-764C-41C1-9F7F-7C964E37E992}
 		{28553699-0701-4C66-B371-D3076C482946} = {1F4A0DBF-4095-42B1-AF7F-F0E7CC578985}
 		{BA3E02DE-E80F-440F-B9FA-114D6967E73C} = {1F4A0DBF-4095-42B1-AF7F-F0E7CC578985}
+		{39E90DDE-E21A-494B-B718-6EA5AC86B9A0} = {1F4A0DBF-4095-42B1-AF7F-F0E7CC578985}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C036A88-B890-4F13-9483-C2FA76CEB942}

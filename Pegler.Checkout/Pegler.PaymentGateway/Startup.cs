@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
 using Pegler.PaymentGateway.BusinessLogic.Managers;
+using Pegler.PaymentGateway.DataAccess.Contracts;
+using Pegler.PaymentGateway.DataAccess.Providers;
 using System;
 
 namespace Pegler.PaymentGateway
@@ -47,6 +49,9 @@ namespace Pegler.PaymentGateway
             services.AddAutoMapper(typeof(Startup));
 
             services.AddTransient<IHttpClientManager, HttpClientManager>();
+            services.AddTransient<IPaymentManager, PaymentManager>();
+
+            services.AddTransient<IBankProvider, BankProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
