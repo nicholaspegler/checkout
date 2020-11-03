@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
+using Pegler.PaymentGateway.ViewModels.Payment.GET;
 
 namespace Pegler.PaymentGateway.AutoMapperMapping
 {
@@ -10,6 +8,10 @@ namespace Pegler.PaymentGateway.AutoMapperMapping
     {
         public Mappings()
         {
+
+            CreateMap<PaymentRespVM, PaymentRespModel>()
+                .ReverseMap();
+
         }
     }
 }

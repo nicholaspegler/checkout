@@ -1,14 +1,12 @@
-﻿using Pegler.Bank.Enums;
-
-namespace Pegler.Bank.ViewModels.Bank.GET
+﻿namespace Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET
 {
-    public class BankCardRespVM
+    public class PaymentCardRespModel
     {
         public string NameOnCard { get; set; }
 
-        public CardType CardType { get; set; }
+        public string CardType { get; set; }
 
-        public Issuer Issuer { get; set; }
+        public string Issuer { get; set; }
 
         public string Cardnumber { get; set; }
 
