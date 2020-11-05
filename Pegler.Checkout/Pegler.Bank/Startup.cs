@@ -41,7 +41,7 @@ namespace Pegler.Bank
                         {
                             Name = "Nicholas Pegler",
                             Email = string.Empty,
-                            Url = new Uri("https://github.com/nicholaspegler/checkout-gateway")
+                            Url = new Uri("https://github.com/nicholaspegler/checkout")
                         }
                     });
                 });

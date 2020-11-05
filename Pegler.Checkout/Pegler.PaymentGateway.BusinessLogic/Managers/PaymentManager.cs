@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
 using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
 using Pegler.PaymentGateway.BusinessLogic.Models.Payment.POST;
-using Pegler.PaymentGateway.DataAccess.Contracts;
-using Pegler.PaymentGateway.DataAccess.Dtos;
+using Pegler.PaymentGateway.BusinessLogic.Options;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -17,73 +17,44 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
     public class PaymentManager : IPaymentManager
     {
         private readonly IHttpClientManager httpClientManager;
-        private readonly IBankProvider bankProvider;
+        private readonly IOptions<EndpointOptions> endpointOptions;
+
+        private static string _Failed_ToGetPayment = "Failed to retrieve payment details.";
+        private static string _Failed_ToPostPayment = "Failed to post payment details.";
 
         public PaymentManager(IHttpClientManager httpClientManager,
-                              IBankProvider bankProvider)
+                              IOptions<EndpointOptions> endpointOptions)
         {
             this.httpClientManager = httpClientManager;
-            this.bankProvider = bankProvider;
+            this.endpointOptions = endpointOptions;
         }
 
-        public async Task<(PaymentRespModel, string)> GetAsync(Guid paymentId)
+        public async Task<(PaymentRespModel, ModelStateDictionary)> GetAsync(Guid paymentId, ModelStateDictionary modelStateDictionary)
         {
-            // Before retrieving the bank details, either a lookup against sortcode or even using the sortcode as an id
-            // would need to be done here to get the bank
+            (PaymentRespModel paymentRespModel, string errorMessage) = await httpClientManager.GetAsync<PaymentRespModel>($"{endpointOptions?.Value.Endpoint}{paymentId}");
 
-            BankDto bankDto = await bankProvider.GetAsync();
-
-            if (bankDto != null)
+            if (!string.IsNullOrEmpty(errorMessage))
             {
-                if (bankDto.Urls?.Any(u => u.Type == "Get") == true)
-                {
-                    string path = bankDto.Urls
-                                         .Where(w => w.Type == "Get")
-                                         .Select(s => s.Value)
-                                         .FirstOrDefault();
-
-                    path = string.Format(path, paymentId);
-
-                    return await httpClientManager.GetAsync<PaymentRespModel>(path, bankDto.Authentication);
-                }
-
-                Log.Information("Failed to retrieve GET Url for - {bankId}");
+                modelStateDictionary.AddModelError("Payment", _Failed_ToGetPayment);
             }
 
-            Log.Information("Failed to retrieve bank details for - {bankId}");
-
-            return (null, "Failed to retrieve bank details");
+            return (paymentRespModel, modelStateDictionary);
         }
 
-        public async Task<(PaymentReqRespModel, string)> PostAsync(PaymentReqModel paymentReqModel)
+        public async Task<(PaymentReqRespModel, ModelStateDictionary)> PostAsync(PaymentReqModel paymentReqModel, ModelStateDictionary modelStateDictionary)
         {
-            // Before retrieving the bank details, either a lookup against sortcode or even using the sortcode as an id
-            // would need to be done here to get the bank
+            string paymentReqModelAsString = JsonConvert.SerializeObject(paymentReqModel);
 
-            BankDto bankDto = await bankProvider.GetAsync();
+            StringContent stringContent = new StringContent(paymentReqModelAsString, Encoding.UTF8, "application/json");
 
-            if (bankDto != null)
+            (PaymentReqRespModel paymentReqRespModel, string errorMessage) = await httpClientManager.PostAsync<PaymentReqRespModel>(endpointOptions?.Value.Endpoint, stringContent);
+
+            if (!string.IsNullOrEmpty(errorMessage))
             {
-                if (bankDto.Urls?.Any(u => u.Type == "Post") == true)
-                {
-                    string path = bankDto.Urls
-                                         .Where(w => w.Type == "Post")
-                                         .Select(s => s.Value)
-                                         .FirstOrDefault();
-
-                    string paymentReqModelAsString = JsonConvert.SerializeObject(paymentReqModel);
-
-                    StringContent stringContent = new StringContent(paymentReqModelAsString, Encoding.UTF8, "application/json");
-
-                    return await httpClientManager.PostAsync<PaymentReqRespModel>(path, stringContent, bankDto.Authentication);
-                }
-
-                Log.Information("Failed to retrieve GET Url for - {bankId}");
+                modelStateDictionary.AddModelError("Payment", _Failed_ToPostPayment);
             }
 
-            Log.Information("Failed to retrieve bank details for - {bankId}");
-
-            return (null, "Failed to retrieve bank details");
+            return (paymentReqRespModel, modelStateDictionary);
         }
     }
 }

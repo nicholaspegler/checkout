@@ -7,8 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
 using Pegler.PaymentGateway.BusinessLogic.Managers;
-using Pegler.PaymentGateway.DataAccess.Contracts;
-using Pegler.PaymentGateway.DataAccess.Providers;
+using Pegler.PaymentGateway.BusinessLogic.Options;
 using System;
 using System.Text.Json.Serialization;
 
@@ -26,6 +25,9 @@ namespace Pegler.PaymentGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AuthenticationOptions>(Configuration.GetSection(AuthenticationOptions.OptionKey));
+            services.Configure<EndpointOptions>(Configuration.GetSection(EndpointOptions.OptionKey));
+
             services.AddHttpClient("default");
 
             services.AddControllers()
@@ -48,7 +50,7 @@ namespace Pegler.PaymentGateway
                         {
                             Name = "Nicholas Pegler",
                             Email = string.Empty,
-                            Url = new Uri("https://github.com/nicholaspegler/checkout-gateway")
+                            Url = new Uri("https://github.com/nicholaspegler/checkout")
                         }
                     });
                 });
@@ -57,8 +59,6 @@ namespace Pegler.PaymentGateway
 
             services.AddTransient<IHttpClientManager, HttpClientManager>();
             services.AddTransient<IPaymentManager, PaymentManager>();
-
-            services.AddTransient<IBankProvider, BankProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

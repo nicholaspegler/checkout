@@ -1,7 +1,7 @@
-﻿using IdentityModel.Client;
+﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
-using Pegler.PaymentGateway.DataAccess.Dtos;
+using Pegler.PaymentGateway.BusinessLogic.Options;
 using Serilog;
 using System;
 using System.Net.Http;
@@ -12,17 +12,20 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
     public class HttpClientManager : IHttpClientManager
     {
         private readonly IHttpClientFactory httpClientFactory;
+        private readonly IOptions<AuthenticationOptions> authenticationOptions;
 
-        public HttpClientManager(IHttpClientFactory httpClientFactory)
+        public HttpClientManager(IHttpClientFactory httpClientFactory,
+                                 IOptions<AuthenticationOptions> authenticationOptions)
         {
             this.httpClientFactory = httpClientFactory;
+            this.authenticationOptions = authenticationOptions;
         }
 
-        public async Task<(T, string)> GetAsync<T>(string path, AuthenticationDto authenticationDto = null)
+        public async Task<(T, string)> GetAsync<T>(string path)
         {
             try
             {
-                using (HttpClient httpClient = await GetHttpClientAsync(authenticationDto))
+                using (HttpClient httpClient = await GetHttpClientAsync())
                 {
                     HttpResponseMessage getResponse = await httpClient.GetAsync(path);
 
@@ -50,11 +53,11 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
             }
         }
 
-        public async Task<(T, string)> PostAsync<T>(string path, StringContent stringContent, AuthenticationDto authenticationDto = null)
+        public async Task<(T, string)> PostAsync<T>(string path, StringContent stringContent)
         {
             try
             {
-                using (HttpClient httpClient = await GetHttpClientAsync(authenticationDto))
+                using (HttpClient httpClient = await GetHttpClientAsync())
                 {
                     HttpResponseMessage postResponse = await httpClient.PostAsync(path, stringContent);
 
@@ -82,11 +85,11 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
             }
         }
 
-        private async Task<HttpClient> GetHttpClientAsync(AuthenticationDto authenticationDto = null)
+        private async Task<HttpClient> GetHttpClientAsync()
         {
             HttpClient httpClient = httpClientFactory.CreateClient("default");
 
-            if (authenticationDto?.IsRequired == true)
+            if (authenticationOptions?.Value.IsRequired == true)
             {
                 // request / generate a token and add to the httpClient as required
             }

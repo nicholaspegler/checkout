@@ -14,13 +14,19 @@ namespace Pegler.Bank.Controllers
     public class BankController : ControllerBase
     {
 
-        // GET api/<BankController>/5
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
             if (id == Guid.Empty)
             {
-                return BadRequest("Empty Guid");
+                ModelState.AddModelError("id","The id field is required and may not be an empty.");
+
+                return BadRequest(ModelState);
             }
 
             DateTime dateTimeNowUtc = DateTime.UtcNow;
@@ -52,7 +58,11 @@ namespace Pegler.Bank.Controllers
             return Ok(bankRespVM);
         }
 
-        // POST api/<BankController>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bankReqVM"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post([Required] BankReqVM bankReqVM)
         {
@@ -70,7 +80,7 @@ namespace Pegler.Bank.Controllers
                 return Created(bankReqRespVM.Href, bankReqRespVM);
             }
 
-            return StatusCode(StatusCodes.Status400BadRequest, ModelState);
+            return BadRequest(ModelState);
         }
     }
 }

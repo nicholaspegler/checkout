@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
 using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
 using Pegler.PaymentGateway.BusinessLogic.Models.Payment.POST;
@@ -39,11 +40,11 @@ namespace Pegler.PaymentGateway.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            (PaymentRespModel paymentRespModel, string errorMessage) = await paymentManager.GetAsync(id);
+            (PaymentRespModel paymentRespModel, ModelStateDictionary modelStateDictionary) = await paymentManager.GetAsync(id, ModelState);
 
-            if (!string.IsNullOrEmpty(errorMessage))
+            if (!modelStateDictionary.IsValid)
             {
-                return BadRequest($"Failed to retrieve payment details");
+                return BadRequest(modelStateDictionary);
             }
 
             if (paymentRespModel == null)
@@ -65,35 +66,26 @@ namespace Pegler.PaymentGateway.Controllers
         {
             if (ModelState.IsValid)
             {
-                PaymentReqModel paymentReqModel = new PaymentReqModel();
+                PaymentReqModel paymentReqModel = mapper.Map<PaymentReqVM, PaymentReqModel>(paymentReqVM);
 
+                (PaymentReqRespModel paymentReqRespModel, ModelStateDictionary modelStateDictionary) = await paymentManager.PostAsync(paymentReqModel, ModelState);
 
-                (PaymentReqRespModel paymentReqRespModel, string errorMessage) = await paymentManager.PostAsync(paymentReqModel);
-
-                if (!string.IsNullOrEmpty(errorMessage))
+                if (!modelStateDictionary.IsValid)
                 {
-                    return BadRequest($"Failed to process payment");
+                    return BadRequest(modelStateDictionary);
                 }
-
-                if (paymentReqRespModel == null)
-                {
-                    return BadRequest("Failed to process payment");
-                }
-
-                Guid id = Guid.NewGuid();
 
                 PaymentCreatedRespVM paymentCreatedRespVM = new PaymentCreatedRespVM()
                 {
-                    Id = id,
-                    Status = "Approved",
-                    Href = $"/api/v1/Payment/{id}"
+                    Id = paymentReqRespModel.Id,
+                    Status = paymentReqRespModel.Status,
+                    Href = $"/api/v1/Payment/{paymentReqRespModel.Id}"
                 };
 
                 return Created(paymentCreatedRespVM.Href, paymentCreatedRespVM);
-
             }
 
-            return StatusCode(StatusCodes.Status400BadRequest, ModelState);
+            return BadRequest(ModelState);
         }
 
     }
