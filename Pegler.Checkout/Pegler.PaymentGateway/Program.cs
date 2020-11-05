@@ -24,8 +24,6 @@ namespace Pegler.PaymentGateway
         {
             LoggerConfiguration loggerConfiguration = new LoggerConfiguration()
                 .ReadFrom.Configuration(hostBuilderContext.Configuration);
-            //.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-            //.MinimumLevel.Override("System", LogEventLevel.Warning);
 
             Log.Logger = loggerConfiguration.CreateLogger();
 

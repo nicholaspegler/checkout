@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Pegler.PaymentGateway.BusinessLogic.Enums
+﻿namespace Pegler.PaymentGateway.BusinessLogic.Enums
 {
     public enum CurrencyCode
     {

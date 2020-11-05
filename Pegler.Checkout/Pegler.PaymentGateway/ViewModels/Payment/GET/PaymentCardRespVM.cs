@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Pegler.PaymentGateway.ViewModels.Payment.GET
+﻿namespace Pegler.PaymentGateway.ViewModels.Payment.GET
 {
     public class PaymentCardRespVM
     {

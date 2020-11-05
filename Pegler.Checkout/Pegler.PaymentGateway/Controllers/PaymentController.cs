@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
@@ -12,6 +6,9 @@ using Pegler.PaymentGateway.BusinessLogic.Models.Payment.GET;
 using Pegler.PaymentGateway.BusinessLogic.Models.Payment.POST;
 using Pegler.PaymentGateway.ViewModels.Payment.GET;
 using Pegler.PaymentGateway.ViewModels.Payment.POST;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
