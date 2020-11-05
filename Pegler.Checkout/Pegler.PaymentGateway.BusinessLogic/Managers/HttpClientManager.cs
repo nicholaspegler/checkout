@@ -25,7 +25,7 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
         {
             try
             {
-                using (HttpClient httpClient = await GetHttpClientAsync())
+                using (HttpClient httpClient = GetHttpClientAsync())
                 {
                     HttpResponseMessage getResponse = await httpClient.GetAsync(path);
 
@@ -57,7 +57,7 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
         {
             try
             {
-                using (HttpClient httpClient = await GetHttpClientAsync())
+                using (HttpClient httpClient = GetHttpClientAsync())
                 {
                     HttpResponseMessage postResponse = await httpClient.PostAsync(path, stringContent);
 
@@ -85,7 +85,8 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
             }
         }
 
-        private async Task<HttpClient> GetHttpClientAsync()
+        // if this method was to call an auth endpoint it would most likely need to be async and awaited
+        private HttpClient GetHttpClientAsync()
         {
             HttpClient httpClient = httpClientFactory.CreateClient("default");
 
