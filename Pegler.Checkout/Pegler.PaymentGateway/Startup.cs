@@ -9,6 +9,8 @@ using Pegler.PaymentGateway.BusinessLogic.Contracts;
 using Pegler.PaymentGateway.BusinessLogic.Managers;
 using Pegler.PaymentGateway.BusinessLogic.Options;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace Pegler.PaymentGateway

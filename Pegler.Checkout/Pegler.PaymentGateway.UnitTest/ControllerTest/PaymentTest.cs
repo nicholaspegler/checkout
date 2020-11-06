@@ -151,7 +151,7 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
         }
 
         [Test]
-        public async Task GetPayment_ReturnsOkResult_WhenPaymentNotFound()
+        public async Task GetPayment_ReturnsNotFoundResult_WhenPaymentNotFound()
         {
             // Arrange
 
@@ -171,12 +171,12 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
             // Assert
 
             Assert.IsNotNull(actionResult);
-            Assert.IsInstanceOf<OkResult>(actionResult);
+            Assert.IsInstanceOf<NotFoundResult>(actionResult);
 
-            OkResult okResult = actionResult as OkResult;
+            NotFoundResult notFoundResult = actionResult as NotFoundResult;
 
-            Assert.IsNotNull(okResult);
-            Assert.AreEqual(StatusCodes.Status200OK, okResult.StatusCode);
+            Assert.IsNotNull(notFoundResult);
+            Assert.AreEqual(StatusCodes.Status404NotFound, notFoundResult.StatusCode);
 
             mockPaymentManager.Verify();
         }
@@ -225,40 +225,6 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
             Assert.AreEqual(id, paymentCreatedRespVM.Id);
             Assert.AreEqual(paymentStatus.ToString(), paymentCreatedRespVM.Status);
             Assert.AreEqual($"/api/v1/Payment/{id}", paymentCreatedRespVM.Href);
-
-            mockPaymentManager.Verify();
-        }
-
-        [Test]
-        public async Task PostPayment_ReturnsBadRequestObjectResult_WhenInvalidModelStateEntered()
-        {
-            // Arrange
-
-            PaymentReqVM paymentReqVM = null;
-
-            // Act
-
-            ActionResult actionResult = await paymentController.Post(paymentReqVM) as ActionResult;
-
-            // Assert
-
-            Assert.IsNotNull(actionResult);
-            Assert.IsInstanceOf<BadRequestObjectResult>(actionResult);
-
-            BadRequestObjectResult badRequestObjectResult = actionResult as BadRequestObjectResult;
-
-            Assert.IsNotNull(badRequestObjectResult);
-            Assert.AreEqual(StatusCodes.Status400BadRequest, badRequestObjectResult.StatusCode);
-
-            Assert.IsNotNull(badRequestObjectResult.Value);
-            Assert.IsInstanceOf<SerializableError>(badRequestObjectResult.Value);
-
-            SerializableError serializableError = badRequestObjectResult.Value as SerializableError;
-
-            Assert.IsNotNull(serializableError);
-
-            Assert.AreEqual(1, serializableError.Keys.Count());
-            Assert.IsTrue(serializableError.ContainsKey("UnitTest"));
 
             mockPaymentManager.Verify();
         }

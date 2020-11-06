@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pegler.PaymentGateway.ViewModels.Payment.POST
 {
-    public class PaymentReqVM //: IValidatableObject
+    public class PaymentReqVM : IValidatableObject
     {
         [Required]
         public CurrencyCode? Currency { get; set; }
@@ -19,9 +19,13 @@ namespace Pegler.PaymentGateway.ViewModels.Payment.POST
         [Required]
         public PaymentRecipientReqVM RecipientDetails { get; set; }
 
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Amount <= 0)
+            {
+                yield return
+                    new ValidationResult("The Amount field must be greater then zero.", new[] { "Amount" });
+            }
+        }
     }
 }

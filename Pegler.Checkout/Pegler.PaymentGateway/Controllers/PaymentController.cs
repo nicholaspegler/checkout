@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Pegler.PaymentGateway.BusinessLogic.Contracts;
@@ -7,16 +8,16 @@ using Pegler.PaymentGateway.BusinessLogic.Models.Payment.POST;
 using Pegler.PaymentGateway.ViewModels.Payment.GET;
 using Pegler.PaymentGateway.ViewModels.Payment.POST;
 using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Pegler.PaymentGateway.Controllers
 {
-    [ApiVersion("1.0")]
-    [Route("api/v1/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [Produces("application/json")]
+    [Route("api/v1/[controller]")]
     public class PaymentController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -29,12 +30,11 @@ namespace Pegler.PaymentGateway.Controllers
             this.paymentManager = paymentManager;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(PaymentRespVM), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
         {
             (PaymentRespModel paymentRespModel, ModelStateDictionary modelStateDictionary) = await paymentManager.GetAsync(id, ModelState);
@@ -46,7 +46,7 @@ namespace Pegler.PaymentGateway.Controllers
 
             if (paymentRespModel == null)
             {
-                return Ok();
+                return NotFound();
             }
 
             PaymentRespVM paymentRespVM = mapper.Map<PaymentRespModel, PaymentRespVM>(paymentRespModel);
@@ -54,12 +54,10 @@ namespace Pegler.PaymentGateway.Controllers
             return Ok(paymentRespVM);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="paymentReqVM"></param>
-        /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(PaymentCreatedRespVM), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(PaymentReqVM paymentReqVM)
         {
             if (ModelState.IsValid)

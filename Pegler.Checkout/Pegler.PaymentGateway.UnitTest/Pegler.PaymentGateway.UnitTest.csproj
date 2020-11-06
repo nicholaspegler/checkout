@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Pegler.PaymentGateway\Pegler.PaymentGateway.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModelTest\" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Pegler.Bank.Enums;
 using Pegler.Bank.ViewModels.Bank.GET;
 using Pegler.Bank.ViewModels.Bank.POST;
@@ -12,13 +13,9 @@ namespace Pegler.Bank.Controllers
     [ApiController]
     public class BankController : ControllerBase
     {
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(BankRespVM), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Get(Guid id)
         {
             if (id == Guid.Empty)
@@ -57,12 +54,9 @@ namespace Pegler.Bank.Controllers
             return Ok(bankRespVM);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="bankReqVM"></param>
-        /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(BankReqRespVM), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([Required] BankReqVM bankReqVM)
         {
             if (ModelState.IsValid)
