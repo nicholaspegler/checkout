@@ -57,9 +57,10 @@ namespace Pegler.PaymentGateway.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="paymentReqVM"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([Required] PaymentReqVM paymentReqVM)
+        public async Task<IActionResult> Post(PaymentReqVM paymentReqVM)
         {
             if (ModelState.IsValid)
             {

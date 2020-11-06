@@ -1,9 +1,10 @@
 ﻿using Pegler.PaymentGateway.BusinessLogic.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pegler.PaymentGateway.ViewModels.Payment.POST
 {
-    public class PaymentReqVM
+    public class PaymentReqVM //: IValidatableObject
     {
         [Required]
         public CurrencyCode? Currency { get; set; }
@@ -17,5 +18,10 @@ namespace Pegler.PaymentGateway.ViewModels.Payment.POST
 
         [Required]
         public PaymentRecipientReqVM RecipientDetails { get; set; }
+
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }
