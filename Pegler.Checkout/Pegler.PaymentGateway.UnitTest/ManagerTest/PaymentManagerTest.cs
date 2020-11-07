@@ -11,7 +11,6 @@ using Pegler.PaymentGateway.BusinessLogic.Options;
 using Pegler.PaymentGateway.UnitTest.MockModel.Payment.GET;
 using Pegler.PaymentGateway.UnitTest.MockModel.Payment.POST;
 using System;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 

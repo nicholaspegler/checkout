@@ -104,7 +104,7 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
             Assert.AreEqual(1, paymentRespVM.CardDetails.ExpiryMonth);
             Assert.AreEqual(2020, paymentRespVM.CardDetails.ExpiryYear);
 
-            mockPaymentManager.Verify();
+            mockPaymentManager.Verify(v => v.GetAsync(It.IsAny<Guid>(), It.IsAny<ModelStateDictionary>()));
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
             Assert.AreEqual(1, serializableError.Keys.Count());
             Assert.IsTrue(serializableError.ContainsKey("UnitTest"));
 
-            mockPaymentManager.Verify();
+            mockPaymentManager.Verify(v => v.GetAsync(It.IsAny<Guid>(), It.IsAny<ModelStateDictionary>()));
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
             Assert.IsNotNull(notFoundResult);
             Assert.AreEqual(StatusCodes.Status404NotFound, notFoundResult.StatusCode);
 
-            mockPaymentManager.Verify();
+            mockPaymentManager.Verify(v => v.GetAsync(It.IsAny<Guid>(), It.IsAny<ModelStateDictionary>()));
         }
 
         #endregion
@@ -226,7 +226,7 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
             Assert.AreEqual(paymentStatus.ToString(), paymentCreatedRespVM.Status);
             Assert.AreEqual($"/api/v1/Payment/{id}", paymentCreatedRespVM.Href);
 
-            mockPaymentManager.Verify();
+            mockPaymentManager.Verify(v => v.PostAsync(It.IsAny<PaymentReqModel>(), It.IsAny<ModelStateDictionary>()));
         }
 
         [Test]
@@ -272,10 +272,8 @@ namespace Pegler.PaymentGateway.UnitTest.ControllerTest
             Assert.AreEqual(1, serializableError.Keys.Count());
             Assert.IsTrue(serializableError.ContainsKey("UnitTest"));
 
-            mockPaymentManager.Verify();
+            mockPaymentManager.Verify(v => v.PostAsync(It.IsAny<PaymentReqModel>(), It.IsAny<ModelStateDictionary>()));
         }
-
-
 
         #endregion
     }
