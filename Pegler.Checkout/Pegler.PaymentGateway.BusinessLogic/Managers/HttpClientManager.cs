@@ -39,7 +39,7 @@ namespace Pegler.PaymentGateway.BusinessLogic.Managers
                     {
                         Log.Information($"GET - StatusCode: {getResponse.StatusCode} | Response: {responseContent}");
 
-                        return (default, $"Get request was unsuccessful.");
+                        return (default, $"GET request was unsuccessful.");
                     }
                 }
             }
