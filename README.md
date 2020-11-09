@@ -1,5 +1,5 @@
 # checkout
-This is a .NET Core API application written to act as a Payment Gateway, this includes a Swagger UI.
+This is a .NET Core API application written to act as a Payment Gateway, this includes a Swagger UI and a Mock Bank Api.
 
 ## Getting Started
 Project can be built locally using Visual Studio (F5)
@@ -42,4 +42,56 @@ There are several items which would expand this project
   - Cvv is validated using basic regex. 
   - Cardnumber is using the built in CreditCard Attribute, a dedicated Luhm formula for vaidate it is actually a card with something to chec kthe 
 
-# 
+# Endpoints
+
+## POST
+All inputs are Required unless marked as optional.
+
+**PaymentRequest**
+| Input | Type | Note |
+| ----- | ----- | ----- |
+| Currency | enum | CurrenyCode |
+| Amount | double | Must be greater then zero |
+| CardDetails | object | PaymentCardRequest |
+| RecipientDetails | object | PaymentRecipientRequest |
+
+**CurrencyCode**
+| Code | Note |
+| ----- | ----- |
+| EUR | Euro |
+| GDP | British Pound |
+| USD | United States Dollar |
+
+**PaymentCardRequest**
+| Input | Type | Note |
+| ----- | ----- | ----- |
+| NameOnCard | string | |
+| CardType | enum | CardType |
+| Issuer | enum | Issuer |
+| Cardnumber | string | CreditCard Attribute |
+| Cvv | string | Regex, 3 or 4 digit based on Issuer |
+| ExpiryMonth | int | Range 1-12 |
+| ExpiryYear | int | May not be in the past |
+
+**CardType**
+| Code | Note |
+| ----- | ----- |
+| Credit | Credit card |
+| Debit | Debit card |
+
+**Issuer**
+| Code | Note |
+| ----- | ----- |
+| Amex | American Express |
+| MasterCard | Master Card |
+| Visa | Visa |
+
+**PaymentRecipientRequest**
+| Input | Type | Note |
+| ----- | ----- | ----- |
+| Name | string | |
+| SortCode | string |  |
+| AccountNumber | string |  |
+| PaymentReference | string | optional |
+
+## GET
