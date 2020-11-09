@@ -44,7 +44,33 @@ There are several items which would expand this project
 
 # Endpoints
 
+These endpoints follow a REST format
+
 ## POST
+
+`Request Payload:`
+```json
+{
+  "currency": "EUR",
+  "amount": 0,
+  "cardDetails": {
+    "nameOnCard": "string",
+    "cardType": "Credit",
+    "issuer": "Amex",
+    "cardnumber": "string",
+    "cvv": "string",
+    "expiryMonth": 0,
+    "expiryYear": 0
+  },
+  "recipientDetails": {
+    "name": "string",
+    "sortCode": "string",
+    "accountnumber": "string",
+    "paymentRefernce": "string"
+  }
+}
+```
+
 All inputs are Required unless marked as optional.
 
 **PaymentRequest**
@@ -94,4 +120,62 @@ All inputs are Required unless marked as optional.
 | AccountNumber | string |  |
 | PaymentReference | string | optional |
 
+`Response:`
+```json
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "href": "string",
+  "status": "string"
+}
+```
+
+**PaymentCreatedResponse**
+| Input | Type | Note |
+| ----- | ----- | ----- |
+| Id | string | Id to use in the GET |
+| Status | string | Payment status |
+| Href | string | GET Self link |
+
+
 ## GET
+
+Using the Id returned in the GET a request can be made to get the payment.
+
+`Response:`
+```json
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "status": "string",
+  "currency": "string",
+  "amount": 0,
+  "cardDetails": {
+    "nameOnCard": "string",
+    "cardType": "string",
+    "issuer": "string",
+    "cardnumberLast4": "string",
+    "cvv": "string",
+    "expiryMonth": 0,
+    "expiryYear": 0
+  }
+}
+```
+
+**PaymentResponse**
+| Input | Type | Note |
+| ----- | ----- | ----- |
+| Id | Guid | PaymentId |
+| Status | string | Payment status |
+| Currency | string |  |
+| Amount | double |  |
+| CardDetails | object | PaymentCardResponse |
+
+**PaymentCardResponse**
+| Input | Type | Note |
+| ----- | ----- | ----- |
+| NameOnCard | string | |
+| CardType | string |  |
+| Issuer | string |  |
+| CardnumberLast4 | string | Returns only the last 4 characters of the cardnumber |
+| Cvv | string | Returns *** |
+| ExpiryMonth | int |  |
+| ExpiryYear | int |  |
