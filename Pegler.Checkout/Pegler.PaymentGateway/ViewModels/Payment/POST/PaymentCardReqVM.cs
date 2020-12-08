@@ -35,10 +35,10 @@ namespace Pegler.PaymentGateway.ViewModels.Payment.POST
             if (!string.IsNullOrEmpty(Cvv))
             {
                 if (Issuer == BusinessLogic.Enums.Issuer.Amex 
-                    && !Regex.IsMatch(Cvv, @"^\d{4}$"))
+                    && !Regex.IsMatch(Cvv, @"^\d{3,4}$"))
                 {
                     yield return
-                        new ValidationResult("The Cvv field must be 4 digits for Amex Cards.", new[] { "Cvv" });
+                        new ValidationResult("The Cvv field must be 3 or 4 digits for Amex Cards.", new[] { "Cvv" });
                 }
                 else if (!Regex.IsMatch(Cvv, @"^\d{3}$"))
                 {

@@ -2,6 +2,14 @@
 This is a .NET Core API application written to act as a Payment Gateway, this includes a Swagger UI and a Mock Bank Api.
 
 ## Getting Started
+After cloning the repo locally, the starup projects will need to be configured as Action - Start.
+- Pegler.PaymentGateway
+- Pegler.Bank
+
+The appsettings will need to be adjusted
+- Pegler.PaymentGateway
+  - Payment:Bank:Endpoint - to match the url of Pegler.Bank
+
 Project can be built locally using Visual Studio (F5)
 
 ## Considerations for Expansion

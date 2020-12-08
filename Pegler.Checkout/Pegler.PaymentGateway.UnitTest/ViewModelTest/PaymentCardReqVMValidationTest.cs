@@ -87,16 +87,15 @@ namespace Pegler.PaymentGateway.UnitTest.ViewModelTest
         }
 
         [Test]
-        [TestCase("1", Issuer.Amex, "4 digits for Amex Cards.")]
+        [TestCase("1", Issuer.Amex, "3 or 4 digits for Amex Cards.")]
         [TestCase("1", Issuer.MasterCard, "3 digits.")]
         [TestCase("1", Issuer.Visa, "3 digits.")]
-        [TestCase("12", Issuer.Amex, "4 digits for Amex Cards.")]
+        [TestCase("12", Issuer.Amex, "3 or 4 digits for Amex Cards.")]
         [TestCase("12", Issuer.MasterCard, "3 digits.")]
         [TestCase("12", Issuer.Visa, "3 digits.")]
-        [TestCase("123", Issuer.Amex, "4 digits for Amex Cards.")]
         [TestCase("1234", Issuer.MasterCard, "3 digits.")]
         [TestCase("1234", Issuer.Visa, "3 digits.")]
-        [TestCase("ABCD", Issuer.Amex, "4 digits for Amex Cards.")]
+        [TestCase("ABCD", Issuer.Amex, "3 or 4 digits for Amex Cards.")]
         [TestCase("ABC", Issuer.MasterCard, "3 digits.")]
         [TestCase("ABC", Issuer.Visa, "3 digits.")]
         public void PaymentCardReqVM_ShouldReturnErrorIfCvvInvlaid(string cvv, Issuer issuer, string error)
